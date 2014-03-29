@@ -1,0 +1,12 @@
+{% extends "layout.html"%}
+{% block content %}
+    <div>
+        <form action="/users/add" method="POST">
+            <legend>Add User to Recommender</legend>
+            <div class="form-group">
+                <input name="user_name" id="user_name" type="text" placeholder="User's Name" class="form-control">
+            </div>
+            <button name="add_user_button" id="add_user_button" class="btn btn-primary btn-lg">Add User</button>
+        </form>
+    </div>
+{% end %}
