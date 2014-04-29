@@ -1,10 +1,10 @@
 from math import sqrt
 
 users = {
-	'Daniel': {'m300': 2.5, 'Lord of the Rings': 3.5, 'Django Unchained': 3.5, 'Madagascar': 4.5},
-	'Lloyd':  {'m300': 4.5, 'Django Unchained': 4.0, 'Madagascar': 4.0},
-	'Steve':  {'m300': 4.5, 'Lord of the Rings': 4.5, 'Django Unchained': 4.5, 'Madagascar': 4.0},
-	'Lenny':  {'m300': 4.0, 'Lord of the Rings': 4.0}
+    'Daniel': {'m300': 2.5, 'Lord of the Rings': 3.5, 'Django Unchained': 3.5, 'Madagascar': 4.5},
+    'Lloyd': {'m300': 4.5, 'Django Unchained': 4.0, 'Madagascar': 4.0},
+    'Steve': {'m300': 4.5, 'Lord of the Rings': 4.5, 'Django Unchained': 4.5, 'Madagascar': 4.0},
+    'Lenny': {'m300': 4.0, 'Lord of the Rings': 4.0}
 }
 
 
@@ -33,17 +33,19 @@ def cosine_similarity(rating1, rating2):
     else:
         return dot_product / ((sqrt(length_of_vector_x)) * sqrt(length_of_vector_y))
 
+
 def compute_nearest_neighbor(username):
-        """
+    """
         Creates a sorted list of users based on their distance to the username
         """
-        distances = []
-        for instance in users:
-            if instance != username:
-                distance = cosine_similarity(users[username], users[instance])
-                distances.append((instance, distance))
-        distances.sort(key=lambda artist_tuple: artist_tuple[1], reverse=True)
-        return distances
+    distances = []
+    for instance in users:
+        if instance != username:
+            distance = cosine_similarity(users[username], users[instance])
+            distances.append((instance, distance))
+    distances.sort(key=lambda artist_tuple: artist_tuple[1], reverse=True)
+    return distances
+
 
 def recommend(user):
     """Give list of recommendations"""
@@ -57,25 +59,25 @@ def recommend(user):
     total_distance = 0.0
     for i in range(k_nearest_neighbor_value):
         total_distance += nearest_neighbors[i][1]
-    # Iterate through the k nearest neighbors accumulating their ratings
+        # Iterate through the k nearest neighbors accumulating their ratings
     for i in range(k_nearest_neighbor_value):
         weight = nearest_neighbors[i][1] / total_distance
         nearest_neighbor_name = nearest_neighbors[i][0]
         nearest_neighbor_ratings = users[nearest_neighbor_name]
         # now find bands neighbor rated that user didn't
-        for artist in nearest_neighbor_ratings:
-            if not artist in user_ratings:
-                if artist not in recommendations:
-                    recommendations[artist] = (nearest_neighbor_ratings[artist] * weight)
+        for neighbor in nearest_neighbor_ratings:
+            if not neighbor in user_ratings:
+                if neighbor not in recommendations:
+                    recommendations[neighbor] = (nearest_neighbor_ratings[neighbor] * weight)
                 else:
-                    recommendations[artist] = (recommendations[artist] + nearest_neighbor_ratings[artist] * weight)
-    # now make list from dictionary
+                    recommendations[neighbor] = (recommendations[neighbor] + nearest_neighbor_ratings[neighbor] * weight)
+        # now make list from dictionary
     recommendations = list(recommendations.items())
     recommendations = [(convert_product_id_to_name(k), v) for (k, v) in recommendations]
     # finally sort and return
-    recommendations.sort(key=lambda artistTuple: artistTuple[1], reverse=True)
+    recommendations.sort(key=lambda neighborTuple: neighborTuple[1], reverse=True)
     return recommendations
-    
+
 
 if __name__ == "__main__":
-	print recommend('Lenny')
+    print recommend('Lenny')

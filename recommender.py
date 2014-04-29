@@ -36,7 +36,7 @@ class Recommender:
         print len(ratings)
         ratings = list(ratings.items())
         ratings = [(self.convert_product_id_to_name(k), v) for (k, v) in ratings]
-        ratings.sort(key=lambda artist_tuple: artist_tuple[1], reverse=True)
+        ratings.sort(key=lambda neighbor_tuple: neighbor_tuple[1], reverse=True)
         ratings = ratings[:number_of_top_ratings]
         for rating in ratings:
             print("%s\t%i" % (rating[0], rating[1]))
@@ -46,7 +46,7 @@ class Recommender:
         for key in rating1:
             if key in rating2:
                 sum_of_squares += pow((rating1[key] - rating2[key]), 2)
-        return sqrt(sum_of_squares)
+        return format(sqrt(sum_of_squares), ".5f")
 
     def pearson_correlation(self, ratings1, ratings2):
         sum_xy = 0
@@ -70,7 +70,7 @@ class Recommender:
         if denominator == 0:
             return 0
         else:
-            return (sum_xy - (sum_x * sum_y) / number_of_items) / denominator
+            return format((sum_xy - (sum_x * sum_y) / number_of_items) / denominator, ".5f")
 
     def cosine_similarity(self, rating1, rating2):
         dot_product = 0
@@ -95,7 +95,7 @@ class Recommender:
             if instance != username:
                 distance = self.cosine_similarity(self.data[username], self.data[instance])
                 distances.append((instance, distance))
-        distances.sort(key=lambda artist_tuple: artist_tuple[1], reverse=True)
+        distances.sort(key=lambda neighbor_tuple: neighbor_tuple[1], reverse=True)
         return distances
 
     def recommend(self, user):
@@ -114,17 +114,17 @@ class Recommender:
             nearest_neighbor_name = nearest_neighbors[i][0]
             nearest_neighbor_ratings = self.data[nearest_neighbor_name]
             # now find bands neighbor rated that user didn't
-            for artist in nearest_neighbor_ratings:
-                if not artist in user_ratings:
-                    if artist not in recommendations:
-                        recommendations[artist] = (nearest_neighbor_ratings[artist] * weight)
+            for neighbor in nearest_neighbor_ratings:
+                if not neighbor in user_ratings:
+                    if neighbor not in recommendations:
+                        recommendations[neighbor] = (nearest_neighbor_ratings[neighbor] * weight)
                     else:
-                        recommendations[artist] = (recommendations[artist] + nearest_neighbor_ratings[artist] * weight)
+                        recommendations[neighbor] = (recommendations[neighbor] + nearest_neighbor_ratings[neighbor] * weight)
         # now make list from dictionary
         recommendations = list(recommendations.items())
         recommendations = [(self.convert_product_id_to_name(k), v) for (k, v) in recommendations]
         # finally sort and return
-        recommendations.sort(key=lambda artistTuple: artistTuple[1], reverse=True)
+        recommendations.sort(key=lambda neighborTuple: neighborTuple[1], reverse=True)
         return recommendations[:self.max_number_of_recommendations]
 
     def compute_deviations(self):
@@ -163,5 +163,5 @@ class Recommender:
         recommendations = [(self.convert_product_id_to_name(k), v / frequencies[k])
                            for (k, v) in recommendations.items()]
         # finally sort and return
-        recommendations.sort(key=lambda artistTuple: artistTuple[1], reverse=True)
+        recommendations.sort(key=lambda neighborTuple: neighborTuple[1], reverse=True)
         return recommendations
