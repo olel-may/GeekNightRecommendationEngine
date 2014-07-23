@@ -1,12 +1,5 @@
 from math import sqrt
 
-users = {
-    'Daniel': {'m300': 2.5, 'Lord of the Rings': 3.5, 'Django Unchained': 3.5, 'Madagascar': 4.5},
-    'Lloyd': {'m300': 4.5, 'Django Unchained': 4.0, 'Madagascar': 4.0},
-    'Steve': {'m300': 4.5, 'Lord of the Rings': 4.5, 'Django Unchained': 4.5, 'Madagascar': 4.0},
-    'Lenny': {'m300': 4.0, 'Lord of the Rings': 4.0}
-}
-
 
 def convert_product_id_to_name(id):
     """
@@ -77,7 +70,3 @@ def recommend(user):
     # finally sort and return
     recommendations.sort(key=lambda neighborTuple: neighborTuple[1], reverse=True)
     return recommendations
-
-
-if __name__ == "__main__":
-    print recommend('Lenny')
