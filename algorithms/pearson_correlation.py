@@ -1,14 +1,6 @@
 from math import sqrt
 
 
-users = {
-    'Daniel': {'m300': 2.5, 'Lord of the Rings': 3.5, 'Django Unchained': 3.5, 'Madagascar': 4.5},
-    'Lloyd': {'m300': 4.5, 'Lord of the Rings': 4.5, 'Django Unchained': 4.0, 'Madagascar': 4.0},
-    'Steve': {'m300': 4.5, 'Lord of the Rings': 4.5, 'Django Unchained': 4.5, 'Madagascar': 4.0},
-    'Lenny': {'m300': 4.0, 'Lord of the Rings': 4.0, 'Django Unchained': 3.5, 'Madagascar': 3.5}
-}
-
-
 def pearson_correlation(ratings1, ratings2):
     sum_xy = 0
     sum_x = 0
@@ -31,15 +23,4 @@ def pearson_correlation(ratings1, ratings2):
     if denominator == 0:
         return 0
     else:
-        return (sum_xy - (sum_x * sum_y) / number_of_items) / denominator
-
-
-if __name__ == "__main__":
-    print "Pearson\'s Correlation\'s Coefficient between Users"
-    print "\nDaniel and Lloyd: ", pearson_correlation(users['Daniel'], users['Lloyd'])
-    print "\nDaniel and Steve: ", pearson_correlation(users['Daniel'], users['Steve'])
-    print "\nDaniel and Lenny: ", pearson_correlation(users['Daniel'], users['Lenny'])
-    print "\nLloyd and Steve: ", pearson_correlation(users['Lloyd'], users['Steve'])
-    print "\nLloyd and Lenny: ", pearson_correlation(users['Lloyd'], users['Lenny'])
-    print "\nSteve and Lenny: ", pearson_correlation(users['Steve'], users['Lenny'])
-	
+        return (sum_xy - (sum_x * sum_y) / number_of_items) / denominator-
